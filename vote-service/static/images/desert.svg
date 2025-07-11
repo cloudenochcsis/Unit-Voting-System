@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+  <rect width="300" height="200" fill="#2c3c1e" />
+  <rect x="0" y="100" width="300" height="100" fill="#a9d161" opacity="0.3" />
+  <circle cx="250" cy="40" r="25" fill="#a9d161" stroke="#f8f9fa" stroke-width="3" />
+  <path d="M50,150 C80,130 120,160 150,140 C180,120 220,150 250,130" stroke="#4b5320" stroke-width="3" fill="none" />
+  <path d="M30,170 C60,150 100,180 130,160 C160,140 200,170 270,150" stroke="#4b5320" stroke-width="3" fill="none" />
+  <path d="M20,100 L40,120 L60,90 L80,110 L100,80" stroke="#4b5320" stroke-width="2" fill="none" />
+  <path d="M200,100 L220,120 L240,90 L260,110 L280,80" stroke="#4b5320" stroke-width="2" fill="none" />
+  <text x="150" y="180" font-family="Arial" font-size="16" fill="#a9d161" text-anchor="middle">Desert Combat Center</text>
+</svg>

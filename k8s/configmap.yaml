@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: military-voting
+data:
+  VOTING_SESSION_TITLE: "Field Training Exercise Location Selection"
+  VOTING_SESSION_DESCRIPTION: "Vote for the next month's training location"
+  VOTING_SESSION_STATUS: "ACTIVE"

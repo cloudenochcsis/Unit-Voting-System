@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Military Unit Voting System - Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/military-theme.css">
+  <style>
+    body {
+      background-color: #2d3436;
+      color: #dfe6e9;
+      font-family: 'Roboto', sans-serif;
+    }
+    .auth-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 8px;
+      background-color: #3b4547;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .military-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .military-header img {
+      max-width: 100px;
+      margin-bottom: 15px;
+    }
+    .form-control {
+      background-color: #2d3436;
+      border-color: #4b5a61;
+      color: #dfe6e9;
+    }
+    .form-control:focus {
+      background-color: #2d3436;
+      border-color: #5d6f78;
+      color: #dfe6e9;
+      box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+    }
+    .btn-military {
+      background-color: #4b7a47;
+      border-color: #4b7a47;
+      color: white;
+    }
+    .btn-military:hover {
+      background-color: #3c6339;
+      border-color: #3c6339;
+      color: white;
+    }
+    .auth-links {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .auth-links a {
+      color: #a3c2a2;
+      text-decoration: none;
+    }
+    .auth-links a:hover {
+      color: #c1e4c0;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="auth-container">
+      <div class="military-header">
+        <img src="/img/military-insignia.png" alt="Military Insignia" onerror="this.src='/img/default-insignia.png'; this.onerror='';">
+        <h2>Military Unit Voting System</h2>
+        <p class="text-muted">New Soldier Registration</p>
+      </div>
+      
+      <% if (error) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= error %>
+        </div>
+      <% } %>
+      
+      <form action="/register" method="POST">
+        <div class="mb-3">
+          <label for="soldier_id" class="form-label">Soldier ID</label>
+          <input type="text" class="form-control" id="soldier_id" name="soldier_id" value="<%= locals.soldier_id || '' %>" required>
+          <small class="text-muted">Alphanumeric characters only</small>
+        </div>
+        
+        <div class="mb-3">
+          <label for="rank" class="form-label">Rank</label>
+          <select class="form-control" id="rank" name="rank" required>
+            <option value="" disabled selected>Select your rank</option>
+            <option value="PVT" <%= locals.rank === 'PVT' ? 'selected' : '' %>>Private (PVT)</option>
+            <option value="PFC" <%= locals.rank === 'PFC' ? 'selected' : '' %>>Private First Class (PFC)</option>
+            <option value="SPC" <%= locals.rank === 'SPC' ? 'selected' : '' %>>Specialist (SPC)</option>
+            <option value="CPL" <%= locals.rank === 'CPL' ? 'selected' : '' %>>Corporal (CPL)</option>
+            <option value="SGT" <%= locals.rank === 'SGT' ? 'selected' : '' %>>Sergeant (SGT)</option>
+            <option value="SSG" <%= locals.rank === 'SSG' ? 'selected' : '' %>>Staff Sergeant (SSG)</option>
+            <option value="SFC" <%= locals.rank === 'SFC' ? 'selected' : '' %>>Sergeant First Class (SFC)</option>
+            <option value="MSG" <%= locals.rank === 'MSG' ? 'selected' : '' %>>Master Sergeant (MSG)</option>
+            <option value="1SG" <%= locals.rank === '1SG' ? 'selected' : '' %>>First Sergeant (1SG)</option>
+            <option value="SGM" <%= locals.rank === 'SGM' ? 'selected' : '' %>>Sergeant Major (SGM)</option>
+            <option value="CSM" <%= locals.rank === 'CSM' ? 'selected' : '' %>>Command Sergeant Major (CSM)</option>
+            <option value="2LT" <%= locals.rank === '2LT' ? 'selected' : '' %>>Second Lieutenant (2LT)</option>
+            <option value="1LT" <%= locals.rank === '1LT' ? 'selected' : '' %>>First Lieutenant (1LT)</option>
+            <option value="CPT" <%= locals.rank === 'CPT' ? 'selected' : '' %>>Captain (CPT)</option>
+            <option value="MAJ" <%= locals.rank === 'MAJ' ? 'selected' : '' %>>Major (MAJ)</option>
+            <option value="LTC" <%= locals.rank === 'LTC' ? 'selected' : '' %>>Lieutenant Colonel (LTC)</option>
+            <option value="COL" <%= locals.rank === 'COL' ? 'selected' : '' %>>Colonel (COL)</option>
+          </select>
+        </div>
+        
+        <div class="mb-3">
+          <label for="unit" class="form-label">Unit</label>
+          <input type="text" class="form-control" id="unit" name="unit" value="<%= locals.unit || '' %>" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+          <small class="text-muted">Minimum 6 characters</small>
+        </div>
+        
+        <div class="mb-3">
+          <label for="confirm_password" class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+        </div>
+        
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-military">Register</button>
+        </div>
+      </form>
+      
+      <div class="auth-links">
+        <p>Already have an account? <a href="/login">Login</a></p>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

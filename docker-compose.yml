@@ -1,0 +1,96 @@
+version: '3'
+
+services:
+  vote:
+    build: ./vote-service
+    ports:
+      - "5005:80"
+    depends_on:
+      - redis
+      - db
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SECRET_KEY=military_unit_voting_system_secret
+      - DEBUG=False
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=votingdb
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    networks:
+      - frontend
+      - backend
+    restart: always
+
+  result:
+    build: ./result-service
+    ports:
+      - "5001:4000"
+    depends_on:
+      - db
+      - vote
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=votingdb
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - NODE_ENV=production
+    networks:
+      - frontend
+      - backend
+    restart: always
+
+  worker:
+    build: ./worker-service
+    depends_on:
+      - redis
+      - db
+      - vote
+    environment:
+      - Redis__Host=redis
+      - Redis__Port=6379
+      - Database__Host=db
+      - Database__Port=5432
+      - Database__Name=votingdb
+      - Database__User=postgres
+      - Database__Password=postgres
+      - Logging__LogLevel__Default=Information
+    networks:
+      - backend
+    restart: always
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - backend
+    restart: always
+    command: redis-server --appendonly yes
+
+  db:
+    image: postgres:13-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=votingdb
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend
+    restart: always
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  redis-data:
+  db-data:

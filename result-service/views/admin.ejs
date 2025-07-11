@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Military Unit Voting System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #1a2639;
+            color: #d8dbe2;
+            font-family: 'Courier New', monospace;
+        }
+        .container {
+            max-width: 1200px;
+            margin-top: 30px;
+        }
+        .card {
+            background-color: #2c3e50;
+            border: 2px solid #3d5a80;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #3d5a80;
+            color: #f0f0f0;
+            font-weight: bold;
+        }
+        .military-header {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            border-bottom: 2px solid #3d5a80;
+            padding-bottom: 10px;
+        }
+        .btn-primary {
+            background-color: #3d5a80;
+            border-color: #3d5a80;
+        }
+        .btn-primary:hover {
+            background-color: #2c3e50;
+            border-color: #2c3e50;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .status-active {
+            background-color: #28a745;
+            color: white;
+        }
+        .status-closed {
+            background-color: #dc3545;
+            color: white;
+        }
+        .status-pending {
+            background-color: #ffc107;
+            color: black;
+        }
+        .table {
+            color: #d8dbe2;
+        }
+        .table thead th {
+            border-color: #3d5a80;
+        }
+        .table tbody td {
+            border-color: #3d5a80;
+        }
+        .form-control, .form-select {
+            background-color: #1a2639;
+            border-color: #3d5a80;
+            color: #d8dbe2;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #1a2639;
+            border-color: #3d5a80;
+            color: #d8dbe2;
+            box-shadow: 0 0 0 0.25rem rgba(61, 90, 128, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="military-header">Admin Panel</h1>
+            <div>
+                <a href="/" class="btn btn-outline-light">
+                    <i class="bi bi-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Voting Session Management</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="sessionForm" action="/api/sessions" method="POST">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="sessionTitle" class="form-label">Session Title</label>
+                                    <input type="text" class="form-control" id="sessionTitle" name="title" 
+                                           placeholder="e.g., Field Training Exercise Location Selection" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="sessionStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="sessionStatus" name="status" required>
+                                        <option value="PENDING">Pending</option>
+                                        <option value="ACTIVE">Active</option>
+                                        <option value="CLOSED">Closed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sessionDescription" class="form-label">Description</label>
+                                <textarea class="form-control" id="sessionDescription" name="description" 
+                                          rows="2" placeholder="Brief description of the voting session"></textarea>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="startTime" class="form-label">Start Time</label>
+                                    <input type="datetime-local" class="form-control" id="startTime" name="startTime">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="endTime" class="form-label">End Time</label>
+                                    <input type="datetime-local" class="form-control" id="endTime" name="endTime">
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Create New Session</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Voting Sessions</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (sessions && sessions.length > 0) { %>
+                                        <% sessions.forEach(session => { %>
+                                            <tr>
+                                                <td><%= session.title %></td>
+                                                <td><%= session.description %></td>
+                                                <td><%= moment(session.start_time).format('YYYY-MM-DD HH:mm') %></td>
+                                                <td><%= session.end_time ? moment(session.end_time).format('YYYY-MM-DD HH:mm') : 'Not set' %></td>
+                                                <td>
+                                                    <span class="status-badge status-<%= session.status.toLowerCase() %>">
+                                                        <%= session.status %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        <button type="button" class="btn btn-sm btn-outline-light edit-btn"
+                                                                data-id="<%= session.session_id %>">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-outline-danger delete-btn"
+                                                                data-id="<%= session.session_id %>">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="6" class="text-center">No voting sessions found</td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Administrative Actions</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" id="resetVotesBtn">
+                                        <i class="bi bi-arrow-repeat"></i> Reset All Votes
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="d-grid">
+                                    <a href="/api/export" class="btn btn-primary">
+                                        <i class="bi bi-download"></i> Export Results
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="d-grid">
+                                    <button class="btn btn-danger" id="clearDatabaseBtn">
+                                        <i class="bi bi-exclamation-triangle"></i> Clear Database
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <p><small>FOUO - For Official Use Only</small></p>
+            <p><small>Authorized Personnel Only</small></p>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">Confirm Action</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmModalBody">
+                    Are you sure you want to proceed with this action?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmActionBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle session form submission
+            const sessionForm = document.getElementById('sessionForm');
+            sessionForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(sessionForm);
+                const sessionData = {
+                    title: formData.get('title'),
+                    description: formData.get('description'),
+                    status: formData.get('status'),
+                    start_time: formData.get('startTime'),
+                    end_time: formData.get('endTime')
+                };
+                
+                try {
+                    const response = await fetch('/api/sessions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(sessionData)
+                    });
+                    
+                    if (response.ok) {
+                        alert('Session created successfully');
+                        window.location.reload();
+                    } else {
+                        const error = await response.json();
+                        alert(`Error: ${error.message || 'Failed to create session'}`);
+                    }
+                } catch (error) {
+                    console.error('Error creating session:', error);
+                    alert('Error creating session');
+                }
+            });
+            
+            // Handle edit buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const sessionId = btn.dataset.id;
+                    try {
+                        const response = await fetch(`/api/sessions/${sessionId}`);
+                        const session = await response.json();
+                        
+                        // Populate form with session data
+                        document.getElementById('sessionTitle').value = session.title;
+                        document.getElementById('sessionDescription').value = session.description;
+                        document.getElementById('sessionStatus').value = session.status;
+                        
+                        if (session.start_time) {
+                            document.getElementById('startTime').value = formatDateTimeForInput(session.start_time);
+                        }
+                        if (session.end_time) {
+                            document.getElementById('endTime').value = formatDateTimeForInput(session.end_time);
+                        }
+                        
+                        // Change form action and button text
+                        sessionForm.action = `/api/sessions/${sessionId}`;
+                        sessionForm.querySelector('button[type="submit"]').textContent = 'Update Session';
+                        
+                        // Scroll to form
+                        sessionForm.scrollIntoView({ behavior: 'smooth' });
+                    } catch (error) {
+                        console.error('Error fetching session:', error);
+                        alert('Error loading session data');
+                    }
+                });
+            });
+            
+            // Handle delete buttons
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const sessionId = btn.dataset.id;
+                    showConfirmModal(
+                        'Delete Session',
+                        'Are you sure you want to delete this voting session? This action cannot be undone.',
+                        async () => {
+                            try {
+                                const response = await fetch(`/api/sessions/${sessionId}`, {
+                                    method: 'DELETE'
+                                });
+                                
+                                if (response.ok) {
+                                    alert('Session deleted successfully');
+                                    window.location.reload();
+                                } else {
+                                    const error = await response.json();
+                                    alert(`Error: ${error.message || 'Failed to delete session'}`);
+                                }
+                            } catch (error) {
+                                console.error('Error deleting session:', error);
+                                alert('Error deleting session');
+                            }
+                        }
+                    );
+                });
+            });
+            
+            // Handle reset votes button
+            document.getElementById('resetVotesBtn').addEventListener('click', () => {
+                showConfirmModal(
+                    'Reset All Votes',
+                    'Are you sure you want to reset all votes? This will delete all voting data but keep the sessions intact.',
+                    async () => {
+                        try {
+                            const response = await fetch('/api/reset-votes', {
+                                method: 'POST'
+                            });
+                            
+                            if (response.ok) {
+                                alert('Votes reset successfully');
+                                window.location.reload();
+                            } else {
+                                const error = await response.json();
+                                alert(`Error: ${error.message || 'Failed to reset votes'}`);
+                            }
+                        } catch (error) {
+                            console.error('Error resetting votes:', error);
+                            alert('Error resetting votes');
+                        }
+                    }
+                );
+            });
+            
+            // Handle clear database button
+            document.getElementById('clearDatabaseBtn').addEventListener('click', () => {
+                showConfirmModal(
+                    'Clear Database',
+                    'WARNING: This will delete ALL data including sessions, votes, and soldier records. This action cannot be undone.',
+                    async () => {
+                        try {
+                            const response = await fetch('/api/clear-database', {
+                                method: 'POST'
+                            });
+                            
+                            if (response.ok) {
+                                alert('Database cleared successfully');
+                                window.location.reload();
+                            } else {
+                                const error = await response.json();
+                                alert(`Error: ${error.message || 'Failed to clear database'}`);
+                            }
+                        } catch (error) {
+                            console.error('Error clearing database:', error);
+                            alert('Error clearing database');
+                        }
+                    }
+                );
+            });
+            
+            // Utility function to show confirmation modal
+            function showConfirmModal(title, message, confirmCallback) {
+                const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+                document.getElementById('confirmModalTitle').textContent = title;
+                document.getElementById('confirmModalBody').textContent = message;
+                
+                const confirmBtn = document.getElementById('confirmActionBtn');
+                // Remove existing event listeners
+                const newConfirmBtn = confirmBtn.cloneNode(true);
+                confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+                
+                // Add new event listener
+                newConfirmBtn.addEventListener('click', () => {
+                    modal.hide();
+                    confirmCallback();
+                });
+                
+                modal.show();
+            }
+            
+            // Utility function to format date for datetime-local input
+            function formatDateTimeForInput(dateString) {
+                const date = new Date(dateString);
+                return date.toISOString().slice(0, 16);
+            }
+        });
+    </script>
+</body>
+</html>

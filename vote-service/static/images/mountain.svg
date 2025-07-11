@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+  <rect width="300" height="200" fill="#2c3c1e" />
+  <polygon points="50,150 150,30 250,150" fill="#4b5320" stroke="#a9d161" stroke-width="3" />
+  <polygon points="100,150 150,70 200,150" fill="#1a2b17" stroke="#a9d161" stroke-width="2" />
+  <polygon points="125,150 150,100 175,150" fill="#a9d161" stroke="#a9d161" stroke-width="1" />
+  <rect x="0" y="150" width="300" height="50" fill="#4b5320" />
+  <text x="150" y="180" font-family="Arial" font-size="16" fill="#a9d161" text-anchor="middle">Mountain Terrain Base</text>
+  <circle cx="250" cy="40" r="15" fill="#f8f9fa" />
+  <circle cx="240" cy="40" r="15" fill="#2c3c1e" />
+</svg>

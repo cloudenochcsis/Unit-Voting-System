@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: military-voting
+spec:
+  selector:
+    matchLabels:
+      app: worker
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+      - name: worker
+        image: ${REGISTRY}/military-voting-worker:latest
+        env:
+        - name: Redis__Host
+          value: redis
+        - name: Redis__Port
+          value: "6379"
+        - name: Database__Host
+          value: db
+        - name: Database__Port
+          value: "5432"
+        - name: Database__Name
+          value: votingdb
+        - name: Database__User
+          value: postgres
+        - name: Database__Password
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: postgres-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: worker
+  namespace: military-voting
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: worker
