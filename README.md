@@ -1,5 +1,13 @@
 # Military Unit Voting System
 
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/yourusername/military-unit-voting-system/releases/tag/v1.0.0)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Docker](https://img.shields.io/badge/docker-ready-brightgreen.svg)](docker-compose.yml)
+[![Kubernetes](https://img.shields.io/badge/kubernetes-ready-blue.svg)](k8s/)
+[![Python](https://img.shields.io/badge/python-3.9-blue.svg)](vote-service/)
+[![Node.js](https://img.shields.io/badge/node.js-14-green.svg)](result-service/)
+[![.NET](https://img.shields.io/badge/.NET-6.0-purple.svg)](worker-service/)
+
 A distributed microservice application for military unit voting on training exercise locations. This system demonstrates Docker containerization, Kubernetes orchestration, and modern distributed architecture patterns.
 
 ## Project Overview
