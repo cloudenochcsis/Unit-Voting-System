@@ -50,10 +50,16 @@ This will start all services and expose the following endpoints:
   - Login with your soldier ID and password
   - Cast your vote for one of the three training locations
 
+![Vote Service Login Screen](images/vote-service-login.png)
+*Figure 1: Soldier Authentication screen for the Vote Service*
+
 - **Result Service**: View the public results dashboard at http://localhost:5001
   - Real-time vote counts and percentages
   - No authentication required
   - Automatically updates as votes are processed
+
+![Result Service Dashboard](images/results-dashboard.png)
+*Figure 2: Public Results Dashboard showing real-time voting statistics*
 
 ## Deploying to Kubernetes
 
