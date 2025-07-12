@@ -174,16 +174,20 @@ def save_soldier_to_db(soldier_id, rank, unit, password_hash):
                 "UPDATE soldiers SET rank = %s, unit = %s WHERE soldier_id = %s",
                 (rank, unit, soldier_id)
             )
-            # Store password hash in Redis (not in PostgreSQL for this demo)
-            redis_client.set(f'soldier:{soldier_id}:password', password_hash)
+            # Update the soldier info in Redis to include the password hash
+            soldier_info = json.loads(redis_client.get(f'soldier:{soldier_id}:info') or '{}')
+            soldier_info['password_hash'] = password_hash
+            redis_client.set(f'soldier:{soldier_id}:info', json.dumps(soldier_info))
         else:
             # Insert new soldier
             cursor.execute(
                 "INSERT INTO soldiers (soldier_id, rank, unit, has_voted) VALUES (%s, %s, %s, %s)",
                 (soldier_id, rank, unit, False)
             )
-            # Store password hash in Redis (not in PostgreSQL for this demo)
-            redis_client.set(f'soldier:{soldier_id}:password', password_hash)
+            # Update the soldier info in Redis to include the password hash
+            soldier_info = json.loads(redis_client.get(f'soldier:{soldier_id}:info') or '{}')
+            soldier_info['password_hash'] = password_hash
+            redis_client.set(f'soldier:{soldier_id}:info', json.dumps(soldier_info))
         
         conn.commit()
         logger.info(f'Soldier {soldier_id} saved to database')
@@ -313,11 +317,11 @@ def register():
         soldier_info = {
             'soldier_id': soldier_id,
             'rank': rank,
-            'unit': unit
+            'unit': unit,
+            'password_hash': password_hash  # Include password hash in the JSON data
         }
         
         redis_client.set(f'soldier:{soldier_id}:info', json.dumps(soldier_info))
-        redis_client.set(f'soldier:{soldier_id}:password', password_hash)
         
         # Persist soldier to PostgreSQL database
         db_success = save_soldier_to_db(soldier_id, rank, unit, password_hash)
