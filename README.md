@@ -24,6 +24,9 @@ This application allows soldiers in a military unit to vote on the location for 
 
 The application follows a 5-service architecture pattern:
 
+![Architecture Diagram](images/architecture.png)
+*Figure: System Architecture Diagram (inspired by [Docker Example Voting App](https://github.com/dockersamples/example-voting-app))*
+
 - **Vote Service**: Handles the user interface for soldiers to register, login, and submit their votes. Built with Flask and connects to both Redis (for session management and message queue) and PostgreSQL (for soldier persistence).
 - **Result Service**: Provides a fully public real-time dashboard of voting results. Built with Express.js and connects to PostgreSQL. No authentication required.
 - **Worker Service**: Processes votes from Redis and stores them in PostgreSQL. Built with .NET Core.
