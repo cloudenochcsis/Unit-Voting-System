@@ -369,10 +369,13 @@ def login():
             redis_client.set(f'soldier:{soldier_id}:info', json.dumps(soldier_data))
             logger.info(f'Added default password for legacy soldier {soldier_id}')
             
-            # For testing only - inform about default password
+            # For testing only - inform about default password if they didn't use it
             if password != default_password:
                 flash(f'For testing: Use default password: {default_password}', 'warning')
                 return redirect(url_for('index'))
+        # Note: We only reach here if either:
+        # 1. The user has a proper password_hash in their data, or
+        # 2. This is a legacy user and they provided the correct default password
         
         # Verify password
         if not bcrypt_sha256.verify(password, soldier_data['password_hash']):
