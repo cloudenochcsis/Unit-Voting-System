@@ -83,68 +83,7 @@ kubectl apply -k k8s/
 kubectl get services -n military-voting
 ```
 
-## Data Models
-
-### Soldier
-- soldier_id (string, unique)
-- rank (string)
-- unit (string)
-- has_voted (boolean)
-- vote_timestamp (datetime)
-
-### Vote
-- vote_id (uuid)
-- soldier_id (string)
-- location_choice (enum: LOCAL, MOUNTAIN, DESERT)
-- timestamp (datetime)
-- processed (boolean)
-
-### Voting Session
-- session_id (uuid)
-- title (string)
-- description (string)
-- start_time (datetime)
-- end_time (datetime)
-- status (enum: ACTIVE, CLOSED, PENDING)
-
-## Recent Updates
-
-### July 2025 Updates
-
-1. **Result Service Improvements**:
-   - Made the Result Service fully public with no authentication required
-   - Removed login/register functionality from the Result Service
-   - Enhanced real-time updates for the dashboard
-
-2. **Vote Service Database Integration**:
-   - Added PostgreSQL integration to the Vote Service
-   - Implemented proper soldier persistence to the database
-   - Fixed foreign key constraint issues in the voting workflow
-   - Improved error handling for database operations
-
-3. **System Stability**:
-   - Enhanced error handling across all services
-   - Improved logging for better debugging
-   - Fixed cross-service data consistency issues
-
-## Security Features
-
-- Soldier ID and password-based registration and authentication
-- Password hashing for secure storage
-- Prevention of duplicate votes through database constraints
-- Audit trail for all voting activities with timestamps
-- Data persistence across service restarts
-- Cross-service data integrity validation
-
-## Development
-
-Each service can be developed independently:
-
-### Vote Service (Python/Flask)
-- Located in the `vote-service` directory
-- Dependencies: Flask, Redis, PostgreSQL, passlib
-- Features: Registration, login, vote submission
-- Database: Connects to both Redis and PostgreSQL
+## Service Management
 
 ```bash
 # Build and run the Vote Service individually
