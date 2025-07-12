@@ -56,13 +56,16 @@ This will start all services and expose the following endpoints:
 ![Vote Service Register Screen](images/register-screen.png)
 *Figure 2: Soldier Registration screen for the Vote Service*
 
+![Vote Confirmation Screen](images/vote-confirmation.png)
+*Figure 3: Vote Confirmation screen showing successful vote submission*
+
 - **Result Service**: View the public results dashboard at http://localhost:5001
   - Real-time vote counts and percentages
   - No authentication required
   - Automatically updates as votes are processed
 
 ![Result Service Dashboard](images/results-dashboard.png)
-*Figure 3: Public Results Dashboard showing real-time voting statistics*
+*Figure 4: Public Results Dashboard showing real-time voting statistics*
 
 ## Deploying to Kubernetes
 
