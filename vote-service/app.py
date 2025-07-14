@@ -222,18 +222,21 @@ LOCATIONS = {
         'name': 'Local Training Grounds',
         'description': 'Familiar terrain with established facilities.',
         'benefits': 'Minimal logistics, known environment, close to base support.',
+        'logistics': 'Short transport distance, existing infrastructure, immediate medical support.',
         'image': 'local.svg'
     },
     'MOUNTAIN': {
         'name': 'Mountain Terrain Base',
         'description': 'High-altitude training in challenging conditions.',
         'benefits': 'Altitude conditioning, terrain navigation, cold weather operations.',
+        'logistics': 'Extended transport required, specialized equipment needed, limited resupply.',
         'image': 'mountain.svg'
     },
     'DESERT': {
         'name': 'Desert Combat Center',
         'description': 'Arid environment with extreme temperature variations.',
         'benefits': 'Heat acclimation, long-range operations, minimal cover tactics.',
+        'logistics': 'Water supply critical, heat protection gear required, dust mitigation.',
         'image': 'desert.svg'
     }
 }

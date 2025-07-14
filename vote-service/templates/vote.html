@@ -212,17 +212,17 @@
         <form action="{{ url_for('submit_vote') }}" method="post" id="voteForm">
             <h3 class="mb-3">{% if has_voted %}Your Selected{% else %}Select{% endif %} Training Location:</h3>
             
-            {% for code, name in locations.items() %}
+            {% for code, location in locations.items() %}
             <div class="location-option {% if has_voted and previous_vote == code %}selected{% endif %}" {% if not has_voted %}onclick="selectLocation('{{ code }}')"{% endif %}>
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <img src="{{ url_for('static', filename='images/' + locations[code].image) }}" class="img-fluid location-image" alt="{{ name }}" style="border: 2px solid #4b5320; border-radius: 5px; max-height: 200px; width: 100%; object-fit: cover;">
+                        <img src="{{ url_for('static', filename='images/' + location.image) }}" class="img-fluid location-image" alt="{{ location.name }}" style="border: 2px solid #4b5320; border-radius: 5px; max-height: 200px; width: 100%; object-fit: cover;">
                     </div>
                     <div class="col-md-8">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="location" id="location{{ code }}" value="{{ code }}" 
+                            <input class="form-check-input" type="radio" name="location" id="location{{ code }}" value="{{ code }}"
                                 {% if has_voted %}
-                                    disabled 
+                                    disabled
                                     {% if previous_vote == code %}checked{% endif %}
                                 {% else %}
                                     required
@@ -238,7 +238,7 @@
                                     {% else %}
                                         <i class="bi bi-geo me-2"></i>
                                     {% endif %}
-                                    {{ name }}
+                                    {{ location.name }}
                                     {% if has_voted and previous_vote == code %}
                                         <span class="badge bg-success ms-2" style="background-color: #4b5320 !important; font-size: 0.7rem;">YOUR VOTE</span>
                                     {% endif %}
@@ -255,21 +255,21 @@
                                 <i class="bi bi-info-circle me-1" style="color: #a9d161;"></i>
                                 <strong>DESCRIPTION</strong>
                             </p>
-                            <p>{{ locations[code].description }}</p>
+                            <p>{{ location.description }}</p>
                         </div>
                         <div class="col-md-4">
                             <p>
                                 <i class="bi bi-trophy me-1" style="color: #a9d161;"></i>
                                 <strong>BENEFITS</strong>
                             </p>
-                            <p>{{ locations[code].benefits }}</p>
+                            <p>{{ location.benefits }}</p>
                         </div>
                         <div class="col-md-4">
                             <p>
                                 <i class="bi bi-truck me-1" style="color: #a9d161;"></i>
                                 <strong>LOGISTICS</strong>
                             </p>
-                            <p>{{ locations[code].logistics }}</p>
+                            <p>{{ location.logistics }}</p>
                         </div>
                     </div>
                 </div>
