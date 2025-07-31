@@ -1,8 +1,8 @@
-# 🚀 Military Unit Voting System - EKS Deployment Guide
+# Military Unit Voting System - EKS Deployment Guide
 
 This guide covers both **Production** and **Free Tier** deployment options for the Military Unit Voting System on Amazon EKS.
 
-## 📋 Configuration Options
+## Configuration Options
 
 ### 1. **Production Deployment** (`terraform-prod.tfvars`)
 - **Purpose**: Full-scale military operations
@@ -18,7 +18,7 @@ This guide covers both **Production** and **Free Tier** deployment options for t
 - **Nodes**: 1 t3.micro instance (Free Tier eligible)
 - **Use Case**: Military demonstrations, proof of concept
 
-## 🎯 Quick Start
+## Quick Start
 
 ### Choose Your Deployment Type
 
@@ -64,7 +64,7 @@ aws eks --region us-west-2 update-kubeconfig --name military-voting-system-prod
 aws eks --region us-east-1 update-kubeconfig --name military-voting-freetier
 ```
 
-## 📊 Configuration Comparison
+## Configuration Comparison
 
 | Feature | Production | Free Tier |
 |---------|------------|-----------|
@@ -78,7 +78,7 @@ aws eks --region us-east-1 update-kubeconfig --name military-voting-freetier
 | **Monthly Cost** | $200-400 | $73-80 |
 | **Use Case** | Production operations | Demo/testing |
 
-## 🏗️ Architecture Differences
+## Architecture Differences
 
 ### **Production Architecture**
 ```
@@ -136,7 +136,7 @@ aws eks --region us-east-1 update-kubeconfig --name military-voting-freetier
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 🎯 Application Deployment
+## Application Deployment
 
 ### **Production Deployment**
 ```bash
@@ -156,7 +156,7 @@ kubectl apply -k k8s-freetier/
 kubectl get pods -n military-voting
 ```
 
-## 💰 Cost Management
+## Cost Management
 
 ### **Production Costs**
 - **EKS Control Plane**: $73/month
@@ -174,7 +174,7 @@ kubectl get pods -n military-voting
 - **Data Transfer**: FREE (under 1GB/month)
 - **Total**: ~$73-80/month
 
-## 🔧 Environment-Specific Features
+## Environment-Specific Features
 
 ### **Production Features**
 - ✅ Multi-AZ deployment
@@ -194,7 +194,7 @@ kubectl get pods -n military-voting
 - ✅ Minimal storage
 - ✅ Basic logging
 
-## 🚨 Important Considerations
+## Important Considerations
 
 ### **Production Deployment**
 - **Security**: Update `cluster_endpoint_public_access_cidrs` with military network ranges
@@ -208,7 +208,7 @@ kubectl get pods -n military-voting
 - **Demonstration Only**: Not suitable for actual military operations
 - **Cleanup**: Remember to destroy resources when not in use
 
-## 🗑️ Cleanup
+## Cleanup
 
 ### **Stop Charges**
 ```bash
@@ -225,7 +225,7 @@ terraform destroy
 kubectl scale deployment --all --replicas=0 -n military-voting
 ```
 
-## 📚 Next Steps
+## Next Steps
 
 1. **Choose your deployment type** based on use case
 2. **Configure variables** using the appropriate `.tfvars` file

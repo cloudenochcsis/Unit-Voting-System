@@ -1,6 +1,6 @@
-# 💰 AWS Free Tier EKS Deployment Guide
+# AWS Free Tier EKS Deployment Guide
 
-## ⚠️ Important Cost Considerations
+## Important Cost Considerations
 
 ### EKS Costs (NOT Free Tier Eligible)
 - **EKS Control Plane**: $0.10/hour = ~$73/month
@@ -17,7 +17,7 @@
 - Data transfer: $2-5 (minimal with single node)
 - **Total: ~$73-80/month**
 
-## 🎯 Free Tier Optimized Architecture
+## Free Tier Optimized Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -56,7 +56,7 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 🚀 Free Tier Deployment Steps
+## Free Tier Deployment Steps
 
 ### Step 1: Use Free Tier Configuration
 
@@ -93,7 +93,7 @@ aws eks --region us-east-1 update-kubeconfig --name military-voting-freetier
 kubectl get nodes
 ```
 
-## 🎯 Application Deployment Strategy
+## Application Deployment Strategy
 
 ### Single Node Considerations
 
@@ -141,7 +141,7 @@ spec:
           value: redis
 ```
 
-## 💡 Cost Optimization Tips
+## Cost Optimization Tips
 
 ### 1. Monitor Usage Closely
 
@@ -184,7 +184,7 @@ kubectl scale deployment result --replicas=0 -n military-voting
 kubectl scale deployment worker --replicas=0 -n military-voting
 ```
 
-## 📊 Resource Allocation Strategy
+## Resource Allocation Strategy
 
 ### Single Node Resource Distribution
 
@@ -204,7 +204,7 @@ Allocation:
 - System Reserve: CPU: 200m, Memory: 132Mi
 ```
 
-## ⚠️ Limitations & Alternatives
+## Limitations & Alternatives
 
 ### Free Tier Limitations
 
@@ -235,7 +235,7 @@ minikube start --memory=2048 --cpus=2
 kubectl apply -k k8s/
 ```
 
-## 🗑️ Cost-Aware Cleanup
+## Cost-Aware Cleanup
 
 ### Daily Cleanup (Save Money)
 ```bash
@@ -250,7 +250,7 @@ kubectl delete -k k8s/
 terraform destroy  # This stops the $73/month EKS charge
 ```
 
-## 📈 Monitoring & Alerts
+## Monitoring & Alerts
 
 ### Set Up Billing Alerts
 
@@ -270,7 +270,7 @@ aws ce get-cost-and-usage \
   --metrics BlendedCost
 ```
 
-## 🎯 Success Criteria
+## Success Criteria
 
 You'll know the Free Tier setup is working when:
 

@@ -2,7 +2,7 @@
 
 This Terraform configuration provisions a production-ready Amazon EKS cluster specifically designed for the Military Unit Voting System application.
 
-## 🏗️ Infrastructure Overview
+## Infrastructure Overview
 
 ### What This Creates
 
@@ -50,7 +50,7 @@ This Terraform configuration provisions a production-ready Amazon EKS cluster sp
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -99,7 +99,7 @@ kubectl get nodes
 kubectl get pods -n kube-system
 ```
 
-## 📦 Container Image Management
+## Container Image Management
 
 ### Build and Push Images to ECR
 
@@ -123,7 +123,7 @@ docker tag military-voting-system/worker-service:latest <account-id>.dkr.ecr.us-
 docker push <account-id>.dkr.ecr.us-west-2.amazonaws.com/military-voting-system/worker-service:latest
 ```
 
-## 🎯 Deploy the Voting Application
+## Deploy the Voting Application
 
 ### Update Kubernetes Manifests
 
@@ -151,7 +151,7 @@ kubectl get all -n military-voting
 kubectl get services -n military-voting
 ```
 
-## 🔧 Configuration Options
+## Configuration Options
 
 ### Environment-Specific Configurations
 
@@ -181,7 +181,7 @@ cluster_endpoint_public_access_cidrs = ["YOUR_OFFICE_IP/32"]
 3. **Encryption**: Enable encryption at rest for EBS volumes
 4. **Compliance**: Add appropriate tags for DoD compliance requirements
 
-## 📊 Monitoring and Logging
+## Monitoring and Logging
 
 ### CloudWatch Container Insights
 
@@ -199,7 +199,7 @@ The following log types are enabled:
 - Controller manager logs
 - Scheduler logs
 
-## 💰 Cost Optimization
+## Cost Optimization
 
 ### Development Environment
 - Use SPOT instances: `node_group_capacity_type = "SPOT"`
@@ -211,7 +211,7 @@ The following log types are enabled:
 - Monitor CloudWatch metrics to optimize instance types
 - Consider Fargate for serverless workloads
 
-## 🔄 Maintenance
+## Maintenance
 
 ### Updating the Cluster
 
@@ -229,7 +229,7 @@ terraform apply -var="node_group_desired_size=3"
 2. **Application Data**: Backup PostgreSQL data using AWS RDS snapshots
 3. **Configuration**: Store Kubernetes manifests in version control
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -264,7 +264,7 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 kubectl run debug --image=busybox -it --rm -- /bin/sh
 ```
 
-## 🗑️ Cleanup
+## Cleanup
 
 To destroy the infrastructure:
 
@@ -276,7 +276,7 @@ kubectl delete -k k8s/
 terraform destroy
 ```
 
-## 📚 Additional Resources
+## Additional Resources
 
 - [EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/)
 - [Kubernetes Documentation](https://kubernetes.io/docs/)
