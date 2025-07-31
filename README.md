@@ -10,9 +10,7 @@
 
 A distributed microservice application for military unit voting on training exercise locations. This system demonstrates Docker containerization, Kubernetes orchestration, and modern distributed architecture patterns.
 
-## Use Disclaimer
 
-This project is intended solely for testing and learning purposes. It may contain security vulnerabilities and may not conform to security best practices. **Do not use this application in production environments.**
 
 ## Project Overview
 
