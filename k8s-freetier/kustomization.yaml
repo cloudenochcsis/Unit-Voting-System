@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: military-voting
+
+resources:
+  - ../k8s/namespace.yaml
+  - ../k8s/redis-deployment.yaml
+  - postgres-deployment.yaml
+  - vote-deployment.yaml
+  - result-deployment.yaml
+  - ../k8s/worker-deployment.yaml
+  - ../k8s/secrets.yaml
+  - ../k8s/configmap.yaml
+
+# Patch deployments to use Free Tier resource limits
+patchesStrategicMerge:
+  - worker-patch.yaml
+
+# Update image registry for Free Tier
+images:
+  - name: ${REGISTRY}/military-voting-vote:latest
+    newName: ${REGISTRY}/military-voting-freetier/vote-service
+    newTag: latest
+  - name: ${REGISTRY}/military-voting-result:latest
+    newName: ${REGISTRY}/military-voting-freetier/result-service
+    newTag: latest
+  - name: ${REGISTRY}/military-voting-worker:latest
+    newName: ${REGISTRY}/military-voting-freetier/worker-service
+    newTag: latest

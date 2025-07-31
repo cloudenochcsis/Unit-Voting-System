@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: military-voting
+spec:
+  replicas: 1  # Single replica for Free Tier
+  template:
+    spec:
+      containers:
+      - name: worker
+        resources:
+          requests:
+            memory: "64Mi"    # Minimal memory request
+            cpu: "50m"        # 0.05 CPU cores
+          limits:
+            memory: "128Mi"   # Conservative memory limit
+            cpu: "100m"       # 0.1 CPU cores

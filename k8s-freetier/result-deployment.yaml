@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: result
+  namespace: military-voting
+spec:
+  replicas: 1  # Single replica for Free Tier
+  selector:
+    matchLabels:
+      app: result
+  template:
+    metadata:
+      labels:
+        app: result
+    spec:
+      containers:
+      - name: result
+        image: ${REGISTRY}/military-voting-freetier/result-service:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"    # Minimal memory request
+            cpu: "50m"        # 0.05 CPU cores
+          limits:
+            memory: "128Mi"   # Conservative memory limit
+            cpu: "100m"       # 0.1 CPU cores
+        env:
+        - name: POSTGRES_HOST
+          value: db
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: postgres-password
+        - name: POSTGRES_DB
+          value: votingdb
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: result
+  namespace: military-voting
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: result
